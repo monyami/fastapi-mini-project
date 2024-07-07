@@ -2,12 +2,20 @@ from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
-    name: str
+    username: str
     email: str
 
 
-class UserCreate(UserBase):
-    pass
+class UserRegister(UserBase):
+    password: str
+
+
+class UserInDB(UserBase):
+    id: int
+    hashed_password: str
+
+    class Config:
+        from_attributes = True
 
 
 class User(UserBase):
@@ -32,3 +40,12 @@ class Task(TaskBase):
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
